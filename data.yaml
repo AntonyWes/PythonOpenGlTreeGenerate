@@ -1,0 +1,10 @@
+data: 2
+leaves:
+  - data: 7
+    leaves:
+      - data: 7
+        leaves:
+          -
+      - data: 8
+        leaves:
+          -
