@@ -46,19 +46,12 @@ class TreeViewer:
 
         glPointSize(1.0)
 
-        for i in self.tree.get_elements(0):
-            if int(self.wh) == int(self.tree_w):
-                R = (self.wh - (2 * self.shift)) / (2 * self.tree_w)
-                nodeX = self.wd / 2
-                nodeY = self.wh / 2
-            else:
-                R = (self.wd - (2 * self.shift)) / (2 * self.tree_w)
-
-                k_x = self.wd - (2 * (self.shift - R)) / (self.tree_w - 1)
-                k_y = self.wh - (2 * (self.shift - R)) / (self.tree_h - 1)
-                nodeX = k_x * self.Treelist.index(i) + self.shift + R
-                for id, data in enumerate(self.Treelist[i]):
-                    nodeY = self.wh - k_y * id + self.shift + R
+        for id, i in enumerate(self.Treelist):
+            nodeY = id*4*R
+            step = self.wd / len(i)
+            half-step = 0.5*step
+            for idn, data in enumerate(i):
+                    nodeX = step * idn + half-step
 
 
 
