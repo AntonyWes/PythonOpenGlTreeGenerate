@@ -10,27 +10,29 @@ from OpenGL.GLU import *
 
 
 class TreeViewer:
-    def __init__(self, tree: Tree, window_height: int, window_width: int, treeList: list):
-        self.wh = window_height
-        self.wd = window_width
-        self.shift = 10
-        self.tree_w = self.wd - self.shift
-        self.tree_h = self.wh - self.shift
+    def __init__(self, tree: Tree, window_height: int, window_width: int):
+        self.screenH = window_height
+        self.screenW = window_width
         self.tree = tree
-        self.Treelist = treeList
 
         self.CountofPics = 360
+        self.radius = 1
+
+        self.Treelist = [[] for i in range(3)]
+        for item in self.tree.get_elements(0):
+            self.Treelist[item[0]].append(item[1])
 
     def clearScreen(self):
         glClearColor(0.0, 0.0, 0.0, 1.0)
 
         gluOrtho2D(-1.0, 1.0, -1.0, 1.0)
 
-    def plotCircle(self, R:float):
+    def plotCircle(self, nodeX, nodeY):
         glBegin(GL_POINTS)
-        for i in range(self.CountofPics):
-            glVertex2f(R * math.cos(i), R * math.sin(i))
 
+        twicePi = 2*math.pi
+        for i in range(self.CountofPics):
+            glVertex2f(nodeX, nodeY)
         glEnd()
 
     def plotLine(self, x1: int, y1: int, x2: int, y2: int):
@@ -44,31 +46,34 @@ class TreeViewer:
         glClear(GL_COLOR_BUFFER_BIT)
         glColor3f(255.0, 255.0, 255.0)
 
-        glPointSize(1.0)
+        glPointSize(10.0)
 
         for id, i in enumerate(self.Treelist):
-            nodeY = id*4*R
-            step = self.wd / len(i)
-            half-step = 0.5*step
+            nodeY = id*4*self.radius
+            step = self.screenW / len(i)
+            halfstep = 0.5*step
             for idn, data in enumerate(i):
-                    nodeX = step * idn + half-step
+                    nodeX = step * idn + halfstep
 
 
 
-        self.plotCircle(R)
+        self.plotCircle(nodeX, nodeY)
 
         glFlush()
 
     def show(self):
-        glutInit()
+        glutInit(sys.argv)
 
-        glutInitDisplayMode(GLUT_RGB)
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
 
         glutCreateWindow("Point")
 
-        glutInitWindowSize(self.wh, self.wd)
+        glutInitWindowSize(GL_INT, GL_INT)
 
-        glutInitWindowPosition(self.wh, self.wd)
+        glutInitWindowPosition(10, 10)
+
+        print(glutGet(GLUT_WINDOW_WIDTH))
+        print(glutGet(GLUT_WINDOW_HEIGHT))
 
         glutDisplayFunc(self.display)
 
