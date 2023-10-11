@@ -7,5 +7,5 @@ with open('data.yaml') as fh:
     read_data = load(fh, Loader=FullLoader)
 
 TreeObj = Tree(**read_data)
-Tree = TreeViewer(TreeObj, 900, 800)
+Tree = TreeViewer(TreeObj, 300, 300)
 Tree.show()
